@@ -6,13 +6,43 @@ using System.Xml.Serialization;
 using NUnit.Framework;
 using Newtonsoft.Json;
 
-// http://msdn.microsoft.com/en-us/library/ms233843(v=vs.110).aspx
-
-// SoapFormatter ?
-
 namespace SerialisationTests
 {
     // ReSharper disable InconsistentNaming
+
+    public interface ISerialiser<T> : IDisposable
+    {
+        void Serialise(T obj);
+        T Deserialise();
+    }
+
+    public class BinarySerialiser<T> : ISerialiser<T>
+    {
+        public void Serialise(T obj)
+        {
+            var binaryFormatter = new BinaryFormatter();
+            _state = new MemoryStream();
+            binaryFormatter.Serialize(_state, obj);
+        }
+
+        public T Deserialise()
+        {
+            var binaryFormatter = new BinaryFormatter();
+            _state.Seek(0, SeekOrigin.Begin);
+            var obj = (T) binaryFormatter.Deserialize(_state);
+            return obj;
+        }
+
+        public void Dispose()
+        {
+            if (_state != null)
+            {
+                _state.Close();
+            }
+        }
+
+        private MemoryStream _state = null;
+    }
 
     [Serializable]
     public class Thing : IDeserializationCallback
@@ -41,17 +71,20 @@ namespace SerialisationTests
                 };
         }
 
+        private static Thing SerialiseAndDeserialise(ISerialiser<Thing> serialiser, Thing thingBefore)
+        {
+            serialiser.Serialise(thingBefore);
+            var thingAfter = serialiser.Deserialise();
+            return thingAfter;
+        }
+
         [Test]
         public void BasicSerialiseThenDeserialiseUsingBinaryFormatter()
         {
-            var thingBefore = MakeThing();
+            var serialiser = new BinarySerialiser<Thing>();
 
-            var binaryFormatter = new BinaryFormatter();
-            var memoryStream = new MemoryStream();
-            binaryFormatter.Serialize(memoryStream, thingBefore);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            var thingAfter = (Thing) binaryFormatter.Deserialize(memoryStream);
-            memoryStream.Close();
+            var thingBefore = MakeThing();
+            var thingAfter = SerialiseAndDeserialise(serialiser, thingBefore);
 
             AssertBeforeAndAfterHaveSamePropertyValues(thingBefore, thingAfter);
             Assert.That(thingBefore.OnDeserializationWasInvoked, Is.False);
