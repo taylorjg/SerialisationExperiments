@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
 
 namespace SerialisationTests
 {
@@ -10,20 +9,29 @@ namespace SerialisationTests
         public int Property1 { get; set; }
         public string Property2 { get; set; }
 
-        [XmlIgnore]
-        public bool DefaultConstructorWasInvoked { get; private set; }
+        public bool DefaultConstructorWasInvoked {
+            get { return _defaultConstructorWasInvoked; }
+        }
 
-        [XmlIgnore]
-        public bool OnDeserializationWasInvoked { get; private set; }
+        public bool OnDeserializationWasInvoked
+        {
+            get { return _onDeserializationWasInvoked; }
+        }
 
         public SerialisableThing()
         {
-            DefaultConstructorWasInvoked = true;
+            _defaultConstructorWasInvoked = true;
         }
 
         void IDeserializationCallback.OnDeserialization(object _)
         {
-            OnDeserializationWasInvoked = true;
+            _onDeserializationWasInvoked = true;
         }
+
+        [NonSerialized]
+        private readonly bool _defaultConstructorWasInvoked;
+
+        [NonSerialized]
+        private bool _onDeserializationWasInvoked;
     }
 }
