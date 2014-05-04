@@ -50,13 +50,15 @@
   <ItemGroup>
     <Compile Include="BinaryDeserialiser.cs" />
     <Compile Include="BinarySerialiser.cs" />
+    <Compile Include="SerialisationUtils.cs" />
+    <Compile Include="SerialiserType.cs" />
     <Compile Include="IDeserialiser.cs" />
     <Compile Include="IDeserializationCallbackTests.cs" />
     <Compile Include="ISerialiser.cs" />
     <Compile Include="NewtonsoftJsonDeserialiser.cs" />
     <Compile Include="NewtonsoftJsonSerialiser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Thing.cs" />
+    <Compile Include="SerialisableThing.cs" />
     <Compile Include="XmlDeserialiser.cs" />
     <Compile Include="XmlSerialiser.cs" />
   </ItemGroup>
