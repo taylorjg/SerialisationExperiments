@@ -9,9 +9,5 @@ namespace SerialisationTests
             var json = JsonConvert.SerializeObject(obj);
             return new NewtonsoftJsonDeserialiser<T>(json);
         }
-
-        public void Dispose()
-        {
-        }
     }
 }

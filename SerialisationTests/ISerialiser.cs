@@ -2,7 +2,7 @@
 
 namespace SerialisationTests
 {
-    public interface ISerialiser<T> : IDisposable
+    public interface ISerialiser<T>
     {
         IDeserialiser<T> Serialise(T obj);
     }

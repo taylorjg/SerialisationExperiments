@@ -9,7 +9,8 @@ namespace SerialisationTests
         public int Property1 { get; set; }
         public string Property2 { get; set; }
 
-        public bool DefaultConstructorWasInvoked {
+        public bool DefaultConstructorWasInvoked
+        {
             get { return _defaultConstructorWasInvoked; }
         }
 

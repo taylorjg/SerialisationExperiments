@@ -14,9 +14,5 @@ namespace SerialisationTests
                 return new BinaryDeserialiser<T>(stream.ToArray());
             }
         }
-
-        public void Dispose()
-        {
-        }
     }
 }

@@ -7,21 +7,18 @@ namespace SerialisationTests
     {
         public XmlDeserialiser(byte[] bytes)
         {
-            _stream = new MemoryStream(bytes);
+            _bytes = bytes;
         }
 
         public T Deserialise()
         {
-            var xmlSerializer = new XmlSerializer(typeof(T));
-            _stream.Seek(0, SeekOrigin.Begin);
-            return (T)xmlSerializer.Deserialize(_stream);
+            using (var stream = new MemoryStream(_bytes))
+            {
+                var xmlSerializer = new XmlSerializer(typeof(T));
+                return (T)xmlSerializer.Deserialize(stream);
+            }
         }
 
-        public void Dispose()
-        {
-            _stream.Close();
-        }
-
-        private readonly Stream _stream;
+        private readonly byte[] _bytes;
     }
 }

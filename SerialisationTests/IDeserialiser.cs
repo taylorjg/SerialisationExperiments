@@ -2,7 +2,7 @@
 
 namespace SerialisationTests
 {
-    public interface IDeserialiser<out T> : IDisposable
+    public interface IDeserialiser<out T>
     {
         T Deserialise();
     }
