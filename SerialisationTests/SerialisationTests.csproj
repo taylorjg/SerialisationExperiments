@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="BinaryDeserialiser.cs" />
     <Compile Include="BinarySerialiser.cs" />
+    <Compile Include="ConstructorTests.cs" />
     <Compile Include="SerialisationUtils.cs" />
     <Compile Include="SerialiserType.cs" />
     <Compile Include="IDeserialiser.cs" />

@@ -11,9 +11,17 @@ namespace SerialisationTests
         public string Property2 { get; set; }
 
         [XmlIgnore]
+        public bool DefaultConstructorWasInvoked { get; private set; }
+
+        [XmlIgnore]
         public bool OnDeserializationWasInvoked { get; private set; }
 
-        public void OnDeserialization(object _)
+        public SerialisableThing()
+        {
+            DefaultConstructorWasInvoked = true;
+        }
+
+        void IDeserializationCallback.OnDeserialization(object _)
         {
             OnDeserializationWasInvoked = true;
         }

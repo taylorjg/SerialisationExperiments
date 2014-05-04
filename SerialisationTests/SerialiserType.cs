@@ -3,7 +3,7 @@
     public enum SerialiserType
     {
         BinaryFormatter,
-        NewtsonsoftJson,
+        NewtonsoftJson,
         XmlSerialiser
     }
 }

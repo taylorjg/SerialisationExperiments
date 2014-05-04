@@ -17,7 +17,7 @@ namespace SerialisationTests
             Assert.That(after.OnDeserializationWasInvoked, Is.True);
         }
 
-        [TestCase(SerialiserType.NewtsonsoftJson)]
+        [TestCase(SerialiserType.NewtonsoftJson)]
         [TestCase(SerialiserType.XmlSerialiser)]
         public void OnDeserializationWillNotBeInvoked(SerialiserType serialiserType)
         {

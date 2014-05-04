@@ -35,7 +35,7 @@ namespace SerialisationTests
                 case SerialiserType.BinaryFormatter:
                     return new BinarySerialiser<T>();
 
-                case SerialiserType.NewtsonsoftJson:
+                case SerialiserType.NewtonsoftJson:
                     return new NewtonsoftJsonSerialiser<T>();
 
                 case SerialiserType.XmlSerialiser:
