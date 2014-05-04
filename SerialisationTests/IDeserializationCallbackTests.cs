@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.IO;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using Newtonsoft.Json;
@@ -9,55 +6,6 @@ using Newtonsoft.Json;
 namespace SerialisationTests
 {
     // ReSharper disable InconsistentNaming
-
-    public interface ISerialiser<T> : IDisposable
-    {
-        void Serialise(T obj);
-        T Deserialise();
-    }
-
-    public class BinarySerialiser<T> : ISerialiser<T>
-    {
-        public void Serialise(T obj)
-        {
-            var binaryFormatter = new BinaryFormatter();
-            _state = new MemoryStream();
-            binaryFormatter.Serialize(_state, obj);
-        }
-
-        public T Deserialise()
-        {
-            var binaryFormatter = new BinaryFormatter();
-            _state.Seek(0, SeekOrigin.Begin);
-            var obj = (T) binaryFormatter.Deserialize(_state);
-            return obj;
-        }
-
-        public void Dispose()
-        {
-            if (_state != null)
-            {
-                _state.Close();
-            }
-        }
-
-        private MemoryStream _state = null;
-    }
-
-    [Serializable]
-    public class Thing : IDeserializationCallback
-    {
-        public int Property1 { get; set; }
-        public string Property2 { get; set; }
-
-        [XmlIgnore]
-        public bool OnDeserializationWasInvoked { get; private set; }
-
-        public void OnDeserialization(object _)
-        {
-            OnDeserializationWasInvoked = true;
-        }
-    }
 
     [TestFixture]
     internal class IDeserializationCallbackTests
@@ -71,21 +19,19 @@ namespace SerialisationTests
                 };
         }
 
-        private static Thing SerialiseAndDeserialise(ISerialiser<Thing> serialiser, Thing thingBefore)
+        private static Thing SerialiseAndDeserialise(Thing thingBefore)
         {
-            serialiser.Serialise(thingBefore);
-            var thingAfter = serialiser.Deserialise();
+            var serialiser = new BinarySerialiser<Thing>();
+            var deserialiser = serialiser.Serialise(thingBefore);
+            var thingAfter = deserialiser.Deserialise();
             return thingAfter;
         }
 
         [Test]
         public void BasicSerialiseThenDeserialiseUsingBinaryFormatter()
         {
-            var serialiser = new BinarySerialiser<Thing>();
-
             var thingBefore = MakeThing();
-            var thingAfter = SerialiseAndDeserialise(serialiser, thingBefore);
-
+            var thingAfter = SerialiseAndDeserialise(thingBefore);
             AssertBeforeAndAfterHaveSamePropertyValues(thingBefore, thingAfter);
             Assert.That(thingBefore.OnDeserializationWasInvoked, Is.False);
             Assert.That(thingAfter.OnDeserializationWasInvoked, Is.True);
