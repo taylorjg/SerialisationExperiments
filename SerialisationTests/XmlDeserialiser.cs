@@ -1,21 +1,20 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.IO;
+using System.Xml.Serialization;
 
 namespace SerialisationTests
 {
-    public class BinaryDeserialiser<T> : IDeserialiser<T>
+    public class XmlDeserialiser<T> : IDeserialiser<T>
     {
-        public BinaryDeserialiser(Byte[] bytes)
+        public XmlDeserialiser(byte[] bytes)
         {
             _stream = new MemoryStream(bytes);
         }
 
         public T Deserialise()
         {
-            var binaryFormatter = new BinaryFormatter();
+            var xmlSerializer = new XmlSerializer(typeof(T));
             _stream.Seek(0, SeekOrigin.Begin);
-            return (T)binaryFormatter.Deserialize(_stream);
+            return (T)xmlSerializer.Deserialize(_stream);
         }
 
         public void Dispose()

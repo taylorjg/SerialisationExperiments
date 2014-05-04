@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-using NUnit.Framework;
-using Newtonsoft.Json;
+﻿using NUnit.Framework;
 
 namespace SerialisationTests
 {
@@ -19,9 +16,8 @@ namespace SerialisationTests
                 };
         }
 
-        private static Thing SerialiseAndDeserialise(Thing thingBefore)
+        private static Thing SerialiseAndDeserialise(ISerialiser<Thing> serialiser, Thing thingBefore)
         {
-            var serialiser = new BinarySerialiser<Thing>();
             var deserialiser = serialiser.Serialise(thingBefore);
             var thingAfter = deserialiser.Deserialise();
             return thingAfter;
@@ -30,8 +26,9 @@ namespace SerialisationTests
         [Test]
         public void BasicSerialiseThenDeserialiseUsingBinaryFormatter()
         {
+            var serialiser = new BinarySerialiser<Thing>();
             var thingBefore = MakeThing();
-            var thingAfter = SerialiseAndDeserialise(thingBefore);
+            var thingAfter = SerialiseAndDeserialise(serialiser, thingBefore);
             AssertBeforeAndAfterHaveSamePropertyValues(thingBefore, thingAfter);
             Assert.That(thingBefore.OnDeserializationWasInvoked, Is.False);
             Assert.That(thingAfter.OnDeserializationWasInvoked, Is.True);
@@ -40,11 +37,9 @@ namespace SerialisationTests
         [Test]
         public void BasicSerialiseThenDeserialiseUsingNewtonsoftJson()
         {
+            var serialiser = new NewtonsoftJsonSerialiser<Thing>();
             var thingBefore = MakeThing();
-
-            var json = JsonConvert.SerializeObject(thingBefore);
-            var thingAfter = JsonConvert.DeserializeObject<Thing>(json);
-
+            var thingAfter = SerialiseAndDeserialise(serialiser, thingBefore);
             AssertBeforeAndAfterHaveSamePropertyValues(thingBefore, thingAfter);
             Assert.That(thingBefore.OnDeserializationWasInvoked, Is.False);
             Assert.That(thingAfter.OnDeserializationWasInvoked, Is.True);
@@ -53,15 +48,9 @@ namespace SerialisationTests
         [Test]
         public void BasicSerialiseThenDeserialiseUsingXmlSerializer()
         {
+            var serialiser = new XmlSerialiser<Thing>();
             var thingBefore = MakeThing();
-
-            var xmlSerializer = new XmlSerializer(typeof(Thing));
-            var memoryStream = new MemoryStream();
-            xmlSerializer.Serialize(memoryStream, thingBefore);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            var thingAfter = (Thing)xmlSerializer.Deserialize(memoryStream);
-            memoryStream.Close();
-
+            var thingAfter = SerialiseAndDeserialise(serialiser, thingBefore);
             AssertBeforeAndAfterHaveSamePropertyValues(thingBefore, thingAfter);
             Assert.That(thingBefore.OnDeserializationWasInvoked, Is.False);
             Assert.That(thingAfter.OnDeserializationWasInvoked, Is.True);
