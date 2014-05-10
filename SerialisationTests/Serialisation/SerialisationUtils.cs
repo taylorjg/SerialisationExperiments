@@ -43,6 +43,15 @@ namespace SerialisationTests.Serialisation
             return ThingWithPrivatePropertySetter.MakeThing(42, "Jon");
         }
 
+        public static ThingWithCustomSerialisation MakeThingWithCustomSerialisation()
+        {
+            return new ThingWithCustomSerialisation
+                {
+                    Property1 = 42,
+                    Property2 = "Jon"
+                };
+        }
+
         public static void AssertBeforeAndAfterHaveSamePropertyValues(ThingWithDeserializationCallback before, ThingWithDeserializationCallback after)
         {
             Assert.That(after.Property1, Is.EqualTo(before.Property1));
@@ -62,6 +71,12 @@ namespace SerialisationTests.Serialisation
         }
 
         public static void AssertBeforeAndAfterHaveSamePropertyValues(ThingWithPrivatePropertySetter before, ThingWithPrivatePropertySetter after)
+        {
+            Assert.That(after.Property1, Is.EqualTo(before.Property1));
+            Assert.That(after.Property2, Is.EqualTo(before.Property2));
+        }
+
+        public static void AssertBeforeAndAfterHaveSamePropertyValues(ThingWithCustomSerialisation before, ThingWithCustomSerialisation after)
         {
             Assert.That(after.Property1, Is.EqualTo(before.Property1));
             Assert.That(after.Property2, Is.EqualTo(before.Property2));

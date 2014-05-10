@@ -49,7 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConstructorTests.cs" />
-    <Compile Include="PrivatePropertySettersTests.cs" />
+    <Compile Include="CustomSerialisationTests.cs" />
+    <Compile Include="PrivatePropertySetterTests.cs" />
     <Compile Include="Serialisation\IDeserialiser.cs" />
     <Compile Include="Serialisation\Implementations\BinaryDeserialiser.cs" />
     <Compile Include="Serialisation\Implementations\BinarySerialiser.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Serialisation\SerialiserType.cs" />
     <Compile Include="DeserializationCallbackTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Things\ThingWithCustomSerialisation.cs" />
     <Compile Include="Things\ThingWithPrivatePropertySetter.cs" />
     <Compile Include="Things\ThingWithoutDefaultConstructor.cs" />
     <Compile Include="Things\ThingWithDefaultConstructor.cs" />
