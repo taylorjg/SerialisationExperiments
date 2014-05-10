@@ -26,5 +26,21 @@ namespace SerialisationTests
             Assert.That(before.DefaultConstructorWasInvoked, Is.True);
             Assert.That(after.DefaultConstructorWasInvoked, Is.False);
         }
+
+        [TestCase(SerialiserType.NewtonsoftJson)]
+        [TestCase(SerialiserType.BinaryFormatter)]
+        public void CanSerialiseAndDeserialiseWithoutADefaultConstructor(SerialiserType serialiserType)
+        {
+            var before = SerialisationUtils.MakeThingWithoutDefaultConstructor();
+            var after = SerialisationUtils.SerialiseAndDeserialise(serialiserType, before);
+            SerialisationUtils.AssertBeforeAndAfterHaveSamePropertyValues(before, after);
+        }
+
+        [TestCase(SerialiserType.XmlSerialiser)]
+        public void CannotSerialiseWithoutADefaultConstructor(SerialiserType serialiserType)
+        {
+            var before = SerialisationUtils.MakeThingWithoutDefaultConstructor();
+            Assert.Throws<System.InvalidOperationException>(() => SerialisationUtils.SerialiseAndDeserialise(serialiserType, before));
+        }
     }
 }

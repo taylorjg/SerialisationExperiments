@@ -33,6 +33,11 @@ namespace SerialisationTests.Serialisation
                 };
         }
 
+        public static ThingWithoutDefaultConstructor MakeThingWithoutDefaultConstructor()
+        {
+            return new ThingWithoutDefaultConstructor(42, "Jon");
+        }
+
         public static void AssertBeforeAndAfterHaveSamePropertyValues(ThingWithDeserializationCallback before, ThingWithDeserializationCallback after)
         {
             Assert.That(after.Property1, Is.EqualTo(before.Property1));
@@ -40,6 +45,12 @@ namespace SerialisationTests.Serialisation
         }
 
         public static void AssertBeforeAndAfterHaveSamePropertyValues(ThingWithDefaultConstructor before, ThingWithDefaultConstructor after)
+        {
+            Assert.That(after.Property1, Is.EqualTo(before.Property1));
+            Assert.That(after.Property2, Is.EqualTo(before.Property2));
+        }
+
+        public static void AssertBeforeAndAfterHaveSamePropertyValues(ThingWithoutDefaultConstructor before, ThingWithoutDefaultConstructor after)
         {
             Assert.That(after.Property1, Is.EqualTo(before.Property1));
             Assert.That(after.Property2, Is.EqualTo(before.Property2));

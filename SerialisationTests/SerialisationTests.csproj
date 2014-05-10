@@ -61,6 +61,7 @@
     <Compile Include="Serialisation\SerialiserType.cs" />
     <Compile Include="DeserializationCallbackTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Things\ThingWithoutDefaultConstructor.cs" />
     <Compile Include="Things\ThingWithDefaultConstructor.cs" />
     <Compile Include="Things\ThingWithDeserializationCallback.cs" />
   </ItemGroup>
