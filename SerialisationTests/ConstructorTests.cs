@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using SerialisationTests.Serialisation;
 
 namespace SerialisationTests
 {
@@ -9,7 +10,7 @@ namespace SerialisationTests
         [TestCase(SerialiserType.XmlSerialiser)]
         public void DefaultConstructorWillBeInvoked(SerialiserType serialiserType)
         {
-            var before = SerialisationUtils.MakeThing();
+            var before = SerialisationUtils.MakeThingWithDefaultConstructor();
             var after = SerialisationUtils.SerialiseAndDeserialise(serialiserType, before);
             SerialisationUtils.AssertBeforeAndAfterHaveSamePropertyValues(before, after);
             Assert.That(before.DefaultConstructorWasInvoked, Is.True);
@@ -19,7 +20,7 @@ namespace SerialisationTests
         [TestCase(SerialiserType.BinaryFormatter)]
         public void DefaultConstructorWillNotBeInvoked(SerialiserType serialiserType)
         {
-            var before = SerialisationUtils.MakeThing();
+            var before = SerialisationUtils.MakeThingWithDefaultConstructor();
             var after = SerialisationUtils.SerialiseAndDeserialise(serialiserType, before);
             SerialisationUtils.AssertBeforeAndAfterHaveSamePropertyValues(before, after);
             Assert.That(before.DefaultConstructorWasInvoked, Is.True);

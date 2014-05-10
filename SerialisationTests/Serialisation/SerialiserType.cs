@@ -1,4 +1,4 @@
-﻿namespace SerialisationTests
+namespace SerialisationTests.Serialisation
 {
     public enum SerialiserType
     {

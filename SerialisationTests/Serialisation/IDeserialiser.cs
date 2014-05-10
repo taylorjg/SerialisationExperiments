@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SerialisationTests
+namespace SerialisationTests.Serialisation
 {
     public interface IDeserialiser<out T>
     {

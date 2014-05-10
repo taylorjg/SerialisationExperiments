@@ -1,7 +1,7 @@
-﻿using System.IO;
+using System.IO;
 using System.Xml.Serialization;
 
-namespace SerialisationTests
+namespace SerialisationTests.Serialisation.Implementations
 {
     public class XmlDeserialiser<T> : IDeserialiser<T>
     {

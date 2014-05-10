@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace SerialisationTests
+namespace SerialisationTests.Serialisation.Implementations
 {
     public class NewtonsoftJsonDeserialiser<T> : IDeserialiser<T>
     {

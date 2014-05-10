@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace SerialisationTests
+namespace SerialisationTests.Serialisation.Implementations
 {
     public class BinaryDeserialiser<T> : IDeserialiser<T>
     {
