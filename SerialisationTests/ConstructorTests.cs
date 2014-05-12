@@ -40,6 +40,7 @@ namespace SerialisationTests
         public void CannotSerialiseWithoutADefaultConstructor(SerialiserType serialiserType)
         {
             var before = SerialisationUtils.MakeThingWithoutDefaultConstructor();
+            // System.InvalidOperationException : SerialisationTests.Things.ThingWithoutDefaultConstructor cannot be serialized because it does not have a parameterless constructor.
             Assert.Throws<System.InvalidOperationException>(() => SerialisationUtils.SerialiseAndDeserialise(serialiserType, before));
         }
     }

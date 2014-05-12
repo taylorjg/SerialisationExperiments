@@ -27,6 +27,7 @@ namespace SerialisationTests
         public void CannotSerialiseWithPrivatePropertySetter(SerialiserType serialiserType)
         {
             var before = SerialisationUtils.MakeThingWithPrivatePropertySetter();
+            // System.InvalidOperationException : Cannot deserialize type 'SerialisationTests.Things.ThingWithPrivatePropertySetter' because it contains property 'Property2' which has no public setter.
             Assert.Throws<System.InvalidOperationException>(() => SerialisationUtils.SerialiseAndDeserialise(serialiserType, before));
         }
     }
